@@ -20,6 +20,8 @@ $url = $baseurl + "/api/aaaLogin.xml"
 $r = Invoke-RestMethod -Uri $url -Method Post -SessionVariable s -Body $creds
 $cookies = $s.Cookies.GetCookies($url)
 
+# How to HTTP GET something from APIC
+
 $tenanturl = $baseurl + "/api/node/class/fvTenant.json?"
 $web = new-object net.webclient
 $web.Headers.add("Cookie", $cookies)
@@ -30,3 +32,23 @@ foreach( $tenant in $resultjson.imdata )
     $tn = "Found tenant " + $tenant.fvTenant.attributes.name
     write $tn
 }
+
+# How to HTTP POST something to APIC
+
+$newtenanturl = $baseurl + "/api/node/mo/uni/tn-sample.json"
+$jsonpayload = @'{"fvTenant":
+                   {"attributes":
+                     {"dn":"uni/tn-sample","name":"sample","rn":"tn-sample","status":"created"},
+                      "children":
+                         [{"fvCtx":
+                           {"attributes":
+                             {"dn":"uni/tn-sample/ctx-vrf-1","name":"vrf-1","rn":"ctx-vrf-1","status":"created"},
+                               "children":[]
+                             }
+                           }
+                         ]
+                      }
+                    }
+'@
+$response = $web.UploadString($newtenanturl,$jsonpayload)
+
