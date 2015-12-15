@@ -36,19 +36,22 @@ foreach( $tenant in $resultjson.imdata )
 # How to HTTP POST something to APIC
 
 $newtenanturl = $baseurl + "/api/node/mo/uni/tn-sample.json"
-$jsonpayload = @'{"fvTenant":
-                   {"attributes":
-                     {"dn":"uni/tn-sample","name":"sample","rn":"tn-sample","status":"created"},
-                      "children":
-                         [{"fvCtx":
-                           {"attributes":
-                             {"dn":"uni/tn-sample/ctx-vrf-1","name":"vrf-1","rn":"ctx-vrf-1","status":"created"},
-                               "children":[]
-                             }
-                           }
-                         ]
-                      }
-                    }
+$jsonpayload = @'
+    {"fvTenant":
+      {"attributes":
+        {"dn":"uni/tn-sample","name":"sample","rn":"tn-sample","status":"created"
+        },
+       "children":
+         [{"fvCtx":
+            {"attributes":
+              {"dn":"uni/tn-sample/ctx-vrf-1","name":"vrf-1","rn":"ctx-vrf-1","status":"created"
+              },
+             "children":[]
+            }
+          }
+         ]
+      }
+    }
 '@
 $response = $web.UploadString($newtenanturl,$jsonpayload)
 
