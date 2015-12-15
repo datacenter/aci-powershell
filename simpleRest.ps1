@@ -3,10 +3,16 @@
 # and use it for subsequent requests
 
 param (
+  [parameter(Mandatory=$true,ValueFromPipeLine=$true,ValueFromPipeLineByPropertyName=$true)]
+  [ValidateNotNullOrEmpty()]
   [string]$username,
+  [parameter(Mandatory=$true,ValueFromPipeLine=$true,ValueFromPipeLineByPropertyName=$true)]
+  [ValidateNotNullOrEmpty()]
   [string]$password,
+  [parameter(Mandatory=$true,ValueFromPipeLine=$true,ValueFromPipeLineByPropertyName=$true)]
+  [ValidateNotNullOrEmpty()]
   [string]$apic
-)
+  )
 
 $creds = '<aaaUser name="' + $username + '" pwd="' + $password + '"/>'
 $baseurl = "http://" + $apic
